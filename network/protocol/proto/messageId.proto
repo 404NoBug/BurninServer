@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package  messageId;
+
+option go_package="/messageId";
+
+enum MessageId {
+  None =0;
+
+  C2S_CreatePlayer = 50001;
+  S2C_CreatePlayer = 50002;
+  C2S_Login = 50003;
+  S2C_Login = 50004;
+
+  //player
+  C2GS_EnterSence = 100001;
+  GS2C_EnterSence = 100002;
+  C2GS_PlayerMove = 100003;
+  GS2C_PlayerMove = 100004;
+  C2GS_PlayerLeave = 100005;
+  GS2C_PlayerLeave = 100006;
+  C2GS_AddFriend = 100007;
+  GS2C_AddFriend = 100008;
+  C2GS_DelFriend = 100009;
+  GS2C_DelFriend = 100010;
+  C2GS_SendChatMsg = 100011;
+  GS2C_SendChatMsg = 100012;
+
+}

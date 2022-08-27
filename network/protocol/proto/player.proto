@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package playerMsg;
+option go_package="/playerMsg";
+
+message C2S_CreatePlayer{
+	string  UserName=1;
+	string  Password=2;
+}
+
+message S2C_CreatePlayer{
+
+}
+
+message C2S_Login{
+	string  UserName=1;
+	string  Password=2;
+}
+
+message S2C_Login{
+	bool  Ok =2;
+}
+
+message	C2GS_EnterSence{
+	string UId = 1;
+	pos_info pos = 2; //坐标
+	float dir = 3;	//方向
+}
+
+message	GS2C_EnterSence{
+	string UId = 1;
+	pos_info pos = 2; //坐标
+	float dir = 3;	//方向
+}
+
+message pos_info{
+	float X = 1;//坐标X
+	float Y = 2;//坐标Y
+}
+message C2GS_PlayerMove{
+	string UId = 1;
+	pos_info pos = 2;
+}
+message GS2C_PlayerMove{
+	pos_info pos = 1;
+}
+message C2GS_PlayerLeave{
+	string UId = 1;
+}
+message GS2C_PlayerLeave{
+	string UId = 1;
+}
+message C2GS_AddFriend{
+	string UId=1;
+}
+
+message GS2C_AddFriend{
+	string  Desc=1;
+}
+
+message C2GS_DelFriend{
+	string  UId=1; //玩家Id
+
+}
+
+message GS2C_DelFriend{
+	string Desc=1; //请求成功与否描述
+}
+
+//聊天请求
+message C2GS_SendChatMsg{
+	string  UId =1;
+	ChatMessage msg=2;
+	int32  Category =3; //聊天类型
+}
+
+message GS2C_SendChatMsg{
+	string  UId =1;
+	ChatMessage msg=2;
+}
+
+message ChatMessage{
+	string Content =1;
+	repeated bytes  extra=2;
+}
+
