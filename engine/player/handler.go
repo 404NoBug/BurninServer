@@ -4,7 +4,6 @@ import (
 	"BurninProject/network"
 	"BurninProject/network/protocol/gen/messageId"
 	"BurninProject/network/protocol/gen/playerMsg"
-	"fmt"
 	"github.com/phuhao00/sugar"
 
 	"google.golang.org/protobuf/proto"
@@ -13,7 +12,6 @@ import (
 type Handler func(*network.Message)
 
 func (p *Player) AddFriend(packet *network.Message) {
-	fmt.Println("Server AddFriend")
 	req := &playerMsg.C2GS_AddFriend{}
 	type Handler func(packet *network.Message)
 
@@ -89,7 +87,6 @@ func (p *Player) PlayerEnter(packet *network.Message) {
 	if err != nil {
 		return
 	}
-	fmt.Println("PlayerEnter", req)
 	p.X = req.Pos.X
 	p.Y = req.Pos.Y
 	p.Dis = req.Dir
@@ -131,7 +128,6 @@ func (p *Player) PlayerMove(packet *network.Message) {
 		ID:   uint64(messageId.MessageId_GS2C_PlayerMove),
 		Data: bytes,
 	}
-	fmt.Println("PlayerMove", rsp)
 	p.Broadcast <- rsp
 	//p.Session.SendMsg(rsp)
 }
@@ -141,13 +137,14 @@ func (p *Player) PlayerStopMove(packet *network.Message) {
 	if err != nil {
 		return
 	}
+	p.Dis = req.Dir
 	bytes, err := proto.Marshal(&playerMsg.GS2C_PlayerStopMove{
 		UId: p.UIDDes,
+		Dir: req.Dir,
 	})
 	rsp := &network.Message{
 		ID:   uint64(messageId.MessageId_GS2C_PlayerStopMove),
 		Data: bytes,
 	}
-	fmt.Println("PlayerMove", rsp)
 	p.Broadcast <- rsp
 }

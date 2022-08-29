@@ -49,7 +49,6 @@ func (pm *PlayerMgr) BroadcastSend(msg *network.Message) {
 			pm.SendOnLinePlayerList()
 		}
 	default:
-		fmt.Println("BroadcastSend = ", msg)
 		for _, v := range pm.players {
 			v.Session.SendMsg(msg)
 		}
@@ -78,13 +77,6 @@ func (pm *PlayerMgr) SendPlayerLeaveGame(UID uint64) {
 	}
 }
 
-func (pm *PlayerMgr) SendPlayerMoveMsg(msg *network.Message) {
-	fmt.Println("BroadcastSend SendPlayerMoveMsg = ", msg)
-	for _, v := range pm.players {
-		v.Session.SendMsg(msg)
-	}
-}
-
 func (pm *PlayerMgr) SendOnLinePlayerList() {
 	Msg := &playerMsg.GS2C_ONLinePlayerList{}
 	for _, v := range pm.players {
@@ -107,7 +99,6 @@ func (pm *PlayerMgr) SendOnLinePlayerList() {
 		ID:   uint64(messageId.MessageId_GS2C_ONLinePlayerList),
 		Data: bytes,
 	}
-	fmt.Println("MessageId_GS2C_ONLinePlayerList = ", rsp)
 	for _, v := range pm.players {
 		v.Session.SendMsg(rsp)
 	}

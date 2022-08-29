@@ -99,10 +99,12 @@ message GS2C_ONLinePlayerList{
 }
 
 message C2GS_PlayerStopMove{
+	float dir = 1;	//方向
 }
 
 message GS2C_PlayerStopMove{
 	string UId = 1;
+	float dir = 2;	//方向
 }
 
 

@@ -2447,6 +2447,8 @@ func (m *C2GS_PlayerStopMove) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Dir
+
 	if len(errors) > 0 {
 		return C2GS_PlayerStopMoveMultiError(errors)
 	}
@@ -2550,6 +2552,8 @@ func (m *GS2C_PlayerStopMove) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for UId
+
+	// no validation rules for Dir
 
 	if len(errors) > 0 {
 		return GS2C_PlayerStopMoveMultiError(errors)
