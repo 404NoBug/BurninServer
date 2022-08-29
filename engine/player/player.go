@@ -12,6 +12,7 @@ type Player struct {
 	X              float32
 	Y              float32
 	Dis            float32
+	UIDDes         string
 	HandlerParamCh chan *network.Message
 	handlers       map[messageId.MessageId]Handler
 	Session        *network.Session

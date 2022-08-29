@@ -1,0 +1,6 @@
+Log file created at: 2022/08/29 13:42:30
+Running on machine: DESKTOP-1LH5BNI
+Built with gc go1.18.5 for windows/amd64
+line format: mmdd hh:mm:ss.uuuuuu  file:line level msg
+2022/08/29 13:42:30.322727 D:/goproject/src/BurninProject/network/server/main.go:12: INFO server start !!
+2022/08/29 13:42:42.832411 D:/goproject/src/BurninProject/network/session.go:31: INFO Session  Run:%!(EXTRA *network.Session=&{0 0xc0001a4000 false 0xc000180050 0xc000190120 false 0x71e0e0})

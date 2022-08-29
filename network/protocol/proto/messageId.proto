@@ -25,5 +25,8 @@ enum MessageId {
   GS2C_DelFriend = 100010;
   C2GS_SendChatMsg = 100011;
   GS2C_SendChatMsg = 100012;
-
+  C2GS_ONLinePlayerList = 100013;
+  GS2C_ONLinePlayerList = 100014;
+  C2GS_PlayerStopMove = 100015;
+  GS2C_PlayerStopMove = 100016;
 }

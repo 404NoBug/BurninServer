@@ -10,4 +10,5 @@ func (p *Player) HandlerRegister() {
 	p.handlers[messageId.MessageId_C2GS_SendChatMsg] = p.ResolveChatMsg
 	p.handlers[messageId.MessageId_C2GS_EnterSence] = p.PlayerEnter
 	p.handlers[messageId.MessageId_C2GS_PlayerMove] = p.PlayerMove
+	p.handlers[messageId.MessageId_C2GS_PlayerStopMove] = p.PlayerStopMove
 }

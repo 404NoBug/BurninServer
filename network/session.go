@@ -4,6 +4,7 @@ import (
 	"BurninProject/aop/logger"
 	"encoding/binary"
 	"fmt"
+	"io"
 	"net"
 	"time"
 )
@@ -48,6 +49,10 @@ func (s *Session) Read() {
 			Msg:  message,
 			Sess: s,
 		})
+		if err == io.EOF {
+			fmt.Println("Read Over")
+			return
+		}
 	}
 }
 
@@ -71,7 +76,10 @@ func (s *Session) send(message *Message) {
 		fmt.Println(err)
 		return
 	}
-	s.Conn.Write(bytes)
+	_, err = s.Conn.Write(bytes)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 }
 

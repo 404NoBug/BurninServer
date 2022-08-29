@@ -233,11 +233,19 @@
                 </li>
               
                 <li>
+                  <a href="#playerMsg.C2GS_ONLinePlayerList"><span class="badge">M</span>C2GS_ONLinePlayerList</a>
+                </li>
+              
+                <li>
                   <a href="#playerMsg.C2GS_PlayerLeave"><span class="badge">M</span>C2GS_PlayerLeave</a>
                 </li>
               
                 <li>
                   <a href="#playerMsg.C2GS_PlayerMove"><span class="badge">M</span>C2GS_PlayerMove</a>
+                </li>
+              
+                <li>
+                  <a href="#playerMsg.C2GS_PlayerStopMove"><span class="badge">M</span>C2GS_PlayerStopMove</a>
                 </li>
               
                 <li>
@@ -269,6 +277,10 @@
                 </li>
               
                 <li>
+                  <a href="#playerMsg.GS2C_ONLinePlayerList"><span class="badge">M</span>GS2C_ONLinePlayerList</a>
+                </li>
+              
+                <li>
                   <a href="#playerMsg.GS2C_PlayerLeave"><span class="badge">M</span>GS2C_PlayerLeave</a>
                 </li>
               
@@ -277,7 +289,15 @@
                 </li>
               
                 <li>
+                  <a href="#playerMsg.GS2C_PlayerStopMove"><span class="badge">M</span>GS2C_PlayerStopMove</a>
+                </li>
+              
+                <li>
                   <a href="#playerMsg.GS2C_SendChatMsg"><span class="badge">M</span>GS2C_SendChatMsg</a>
+                </li>
+              
+                <li>
+                  <a href="#playerMsg.ONLinePlayer_Info"><span class="badge">M</span>ONLinePlayer_Info</a>
                 </li>
               
                 <li>
@@ -504,6 +524,30 @@
                 <td><p></p></td>
               </tr>
             
+              <tr>
+                <td>C2GS_ONLinePlayerList</td>
+                <td>100013</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>GS2C_ONLinePlayerList</td>
+                <td>100014</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>C2GS_PlayerStopMove</td>
+                <td>100015</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>GS2C_PlayerStopMove</td>
+                <td>100016</td>
+                <td><p></p></td>
+              </tr>
+            
           </tbody>
         </table>
       
@@ -602,6 +646,13 @@
 
         
       
+        <h3 id="playerMsg.C2GS_ONLinePlayerList">C2GS_ONLinePlayerList</h3>
+        <p></p>
+
+        
+
+        
+      
         <h3 id="playerMsg.C2GS_PlayerLeave">C2GS_PlayerLeave</h3>
         <p></p>
 
@@ -651,6 +702,13 @@
               
             </tbody>
           </table>
+        
+
+        
+      
+        <h3 id="playerMsg.C2GS_PlayerStopMove">C2GS_PlayerStopMove</h3>
+        <p></p>
+
         
 
         
@@ -865,6 +923,29 @@
 
         
       
+        <h3 id="playerMsg.GS2C_ONLinePlayerList">GS2C_ONLinePlayerList</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>list</td>
+                  <td><a href="#playerMsg.ONLinePlayer_Info">ONLinePlayer_Info</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+        
+
+        
+      
         <h3 id="playerMsg.GS2C_PlayerLeave">GS2C_PlayerLeave</h3>
         <p></p>
 
@@ -899,8 +980,38 @@
             <tbody>
               
                 <tr>
+                  <td>UId</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
                   <td>pos</td>
                   <td><a href="#playerMsg.pos_info">pos_info</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+        
+
+        
+      
+        <h3 id="playerMsg.GS2C_PlayerStopMove">GS2C_PlayerStopMove</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>UId</td>
+                  <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -931,6 +1042,50 @@
                 <tr>
                   <td>msg</td>
                   <td><a href="#playerMsg.ChatMessage">ChatMessage</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+        
+
+        
+      
+        <h3 id="playerMsg.ONLinePlayer_Info">ONLinePlayer_Info</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>UId</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pos</td>
+                  <td><a href="#playerMsg.pos_info">pos_info</a></td>
+                  <td></td>
+                  <td><p>坐标 </p></td>
+                </tr>
+              
+                <tr>
+                  <td>dir</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p>方向 </p></td>
+                </tr>
+              
+                <tr>
+                  <td>hp</td>
+                  <td><a href="#uint64">uint64</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>

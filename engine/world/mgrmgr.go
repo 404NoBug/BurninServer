@@ -5,7 +5,6 @@ import (
 	"BurninProject/engine/manager"
 	"BurninProject/network"
 	"BurninProject/network/protocol/gen/messageId"
-	"fmt"
 	"os"
 	"syscall"
 )
@@ -36,9 +35,8 @@ func (mm *MgrMgr) Run() {
 
 func (mm *MgrMgr) OnSessionPacket(packet *network.SessionPacket) {
 	if packet.Msg == nil {
-		if p := mm.Pm.GetPlayer(packet.Sess.UId); p != nil {
-			fmt.Println("Del Player")
-			mm.Pm.Del(*p)
+		if packet.Sess.UId != 0 {
+			mm.Pm.DelPCh <- &packet.Sess.UId
 		}
 		return
 	}

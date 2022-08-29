@@ -42,7 +42,8 @@ message C2GS_PlayerMove{
 	pos_info pos = 2;
 }
 message GS2C_PlayerMove{
-	pos_info pos = 1;
+	string UId = 1;
+	pos_info pos = 2;
 }
 message C2GS_PlayerLeave{
 	string UId = 1;
@@ -83,4 +84,26 @@ message ChatMessage{
 	string Content =1;
 	repeated bytes  extra=2;
 }
+
+message C2GS_ONLinePlayerList{
+
+}
+message ONLinePlayer_Info{
+	string UId = 1;
+	pos_info pos = 2; //坐标
+	float dir = 3;	//方向
+	uint64 hp = 4;
+}
+message GS2C_ONLinePlayerList{
+	repeated ONLinePlayer_Info list = 1;
+}
+
+message C2GS_PlayerStopMove{
+}
+
+message GS2C_PlayerStopMove{
+	string UId = 1;
+}
+
+
 

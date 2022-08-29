@@ -964,6 +964,8 @@ func (m *GS2C_PlayerMove) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for UId
+
 	if all {
 		switch v := interface{}(m.GetPos()).(type) {
 		case interface{ ValidateAll() error }:
@@ -2047,3 +2049,584 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ChatMessageValidationError{}
+
+// Validate checks the field values on C2GS_ONLinePlayerList with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *C2GS_ONLinePlayerList) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on C2GS_ONLinePlayerList with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// C2GS_ONLinePlayerListMultiError, or nil if none found.
+func (m *C2GS_ONLinePlayerList) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *C2GS_ONLinePlayerList) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return C2GS_ONLinePlayerListMultiError(errors)
+	}
+
+	return nil
+}
+
+// C2GS_ONLinePlayerListMultiError is an error wrapping multiple validation
+// errors returned by C2GS_ONLinePlayerList.ValidateAll() if the designated
+// constraints aren't met.
+type C2GS_ONLinePlayerListMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m C2GS_ONLinePlayerListMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m C2GS_ONLinePlayerListMultiError) AllErrors() []error { return m }
+
+// C2GS_ONLinePlayerListValidationError is the validation error returned by
+// C2GS_ONLinePlayerList.Validate if the designated constraints aren't met.
+type C2GS_ONLinePlayerListValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e C2GS_ONLinePlayerListValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e C2GS_ONLinePlayerListValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e C2GS_ONLinePlayerListValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e C2GS_ONLinePlayerListValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e C2GS_ONLinePlayerListValidationError) ErrorName() string {
+	return "C2GS_ONLinePlayerListValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e C2GS_ONLinePlayerListValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sC2GS_ONLinePlayerList.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = C2GS_ONLinePlayerListValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = C2GS_ONLinePlayerListValidationError{}
+
+// Validate checks the field values on ONLinePlayer_Info with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *ONLinePlayer_Info) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ONLinePlayer_Info with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ONLinePlayer_InfoMultiError, or nil if none found.
+func (m *ONLinePlayer_Info) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ONLinePlayer_Info) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for UId
+
+	if all {
+		switch v := interface{}(m.GetPos()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ONLinePlayer_InfoValidationError{
+					field:  "Pos",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ONLinePlayer_InfoValidationError{
+					field:  "Pos",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPos()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ONLinePlayer_InfoValidationError{
+				field:  "Pos",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Dir
+
+	// no validation rules for Hp
+
+	if len(errors) > 0 {
+		return ONLinePlayer_InfoMultiError(errors)
+	}
+
+	return nil
+}
+
+// ONLinePlayer_InfoMultiError is an error wrapping multiple validation errors
+// returned by ONLinePlayer_Info.ValidateAll() if the designated constraints
+// aren't met.
+type ONLinePlayer_InfoMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ONLinePlayer_InfoMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ONLinePlayer_InfoMultiError) AllErrors() []error { return m }
+
+// ONLinePlayer_InfoValidationError is the validation error returned by
+// ONLinePlayer_Info.Validate if the designated constraints aren't met.
+type ONLinePlayer_InfoValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ONLinePlayer_InfoValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ONLinePlayer_InfoValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ONLinePlayer_InfoValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ONLinePlayer_InfoValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ONLinePlayer_InfoValidationError) ErrorName() string {
+	return "ONLinePlayer_InfoValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ONLinePlayer_InfoValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sONLinePlayer_Info.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ONLinePlayer_InfoValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ONLinePlayer_InfoValidationError{}
+
+// Validate checks the field values on GS2C_ONLinePlayerList with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GS2C_ONLinePlayerList) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GS2C_ONLinePlayerList with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GS2C_ONLinePlayerListMultiError, or nil if none found.
+func (m *GS2C_ONLinePlayerList) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GS2C_ONLinePlayerList) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetList() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GS2C_ONLinePlayerListValidationError{
+						field:  fmt.Sprintf("List[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GS2C_ONLinePlayerListValidationError{
+						field:  fmt.Sprintf("List[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GS2C_ONLinePlayerListValidationError{
+					field:  fmt.Sprintf("List[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return GS2C_ONLinePlayerListMultiError(errors)
+	}
+
+	return nil
+}
+
+// GS2C_ONLinePlayerListMultiError is an error wrapping multiple validation
+// errors returned by GS2C_ONLinePlayerList.ValidateAll() if the designated
+// constraints aren't met.
+type GS2C_ONLinePlayerListMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GS2C_ONLinePlayerListMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GS2C_ONLinePlayerListMultiError) AllErrors() []error { return m }
+
+// GS2C_ONLinePlayerListValidationError is the validation error returned by
+// GS2C_ONLinePlayerList.Validate if the designated constraints aren't met.
+type GS2C_ONLinePlayerListValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GS2C_ONLinePlayerListValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GS2C_ONLinePlayerListValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GS2C_ONLinePlayerListValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GS2C_ONLinePlayerListValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GS2C_ONLinePlayerListValidationError) ErrorName() string {
+	return "GS2C_ONLinePlayerListValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GS2C_ONLinePlayerListValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGS2C_ONLinePlayerList.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GS2C_ONLinePlayerListValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GS2C_ONLinePlayerListValidationError{}
+
+// Validate checks the field values on C2GS_PlayerStopMove with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *C2GS_PlayerStopMove) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on C2GS_PlayerStopMove with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// C2GS_PlayerStopMoveMultiError, or nil if none found.
+func (m *C2GS_PlayerStopMove) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *C2GS_PlayerStopMove) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return C2GS_PlayerStopMoveMultiError(errors)
+	}
+
+	return nil
+}
+
+// C2GS_PlayerStopMoveMultiError is an error wrapping multiple validation
+// errors returned by C2GS_PlayerStopMove.ValidateAll() if the designated
+// constraints aren't met.
+type C2GS_PlayerStopMoveMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m C2GS_PlayerStopMoveMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m C2GS_PlayerStopMoveMultiError) AllErrors() []error { return m }
+
+// C2GS_PlayerStopMoveValidationError is the validation error returned by
+// C2GS_PlayerStopMove.Validate if the designated constraints aren't met.
+type C2GS_PlayerStopMoveValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e C2GS_PlayerStopMoveValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e C2GS_PlayerStopMoveValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e C2GS_PlayerStopMoveValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e C2GS_PlayerStopMoveValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e C2GS_PlayerStopMoveValidationError) ErrorName() string {
+	return "C2GS_PlayerStopMoveValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e C2GS_PlayerStopMoveValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sC2GS_PlayerStopMove.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = C2GS_PlayerStopMoveValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = C2GS_PlayerStopMoveValidationError{}
+
+// Validate checks the field values on GS2C_PlayerStopMove with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GS2C_PlayerStopMove) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GS2C_PlayerStopMove with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GS2C_PlayerStopMoveMultiError, or nil if none found.
+func (m *GS2C_PlayerStopMove) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GS2C_PlayerStopMove) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for UId
+
+	if len(errors) > 0 {
+		return GS2C_PlayerStopMoveMultiError(errors)
+	}
+
+	return nil
+}
+
+// GS2C_PlayerStopMoveMultiError is an error wrapping multiple validation
+// errors returned by GS2C_PlayerStopMove.ValidateAll() if the designated
+// constraints aren't met.
+type GS2C_PlayerStopMoveMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GS2C_PlayerStopMoveMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GS2C_PlayerStopMoveMultiError) AllErrors() []error { return m }
+
+// GS2C_PlayerStopMoveValidationError is the validation error returned by
+// GS2C_PlayerStopMove.Validate if the designated constraints aren't met.
+type GS2C_PlayerStopMoveValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GS2C_PlayerStopMoveValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GS2C_PlayerStopMoveValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GS2C_PlayerStopMoveValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GS2C_PlayerStopMoveValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GS2C_PlayerStopMoveValidationError) ErrorName() string {
+	return "GS2C_PlayerStopMoveValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GS2C_PlayerStopMoveValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGS2C_PlayerStopMove.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GS2C_PlayerStopMoveValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GS2C_PlayerStopMoveValidationError{}

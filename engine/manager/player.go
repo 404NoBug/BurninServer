@@ -3,13 +3,17 @@ package manager
 import (
 	"BurninProject/engine/player"
 	"BurninProject/network"
+	"BurninProject/network/protocol/gen/messageId"
+	"BurninProject/network/protocol/gen/playerMsg"
 	"fmt"
+	"google.golang.org/protobuf/proto"
 )
 
 //PlayerMgr 维护在线玩家
 type PlayerMgr struct {
 	players   map[uint64]*player.Player
 	addPCh    chan *player.Player
+	DelPCh    chan *uint64
 	Broadcast chan *network.Message
 }
 
@@ -17,6 +21,7 @@ func NewPlayerMgr() *PlayerMgr {
 	return &PlayerMgr{
 		players:   make(map[uint64]*player.Player),
 		addPCh:    make(chan *player.Player, 1),
+		DelPCh:    make(chan *uint64, 1),
 		Broadcast: make(chan *network.Message),
 	}
 }
@@ -25,21 +30,86 @@ func (pm *PlayerMgr) Add(p *player.Player) {
 	if pm.players[p.UId] != nil {
 		return
 	}
-	fmt.Println("AddAddAddAddAddAddAdd")
+	fmt.Println("Add Player")
 	pm.players[p.UId] = p
 	go p.Run()
 }
 
 //Del ...
-func (pm *PlayerMgr) Del(p player.Player) {
-	delete(pm.players, p.UId)
+func (pm *PlayerMgr) Del(UID uint64) {
+	fmt.Println("Del Player", UID)
+	pm.SendPlayerLeaveGame(UID)
 }
 
 //Broadcast Message
 func (pm *PlayerMgr) BroadcastSend(msg *network.Message) {
-	fmt.Println("BroadcastSend = ", msg)
+	switch msg.ID {
+	case uint64(messageId.MessageId_GS2C_EnterSence):
+		{
+			pm.SendOnLinePlayerList()
+		}
+	default:
+		fmt.Println("BroadcastSend = ", msg)
+		for _, v := range pm.players {
+			v.Session.SendMsg(msg)
+		}
+	}
+}
+
+func (pm *PlayerMgr) SendPlayerLeaveGame(UID uint64) {
+	Player := pm.players[UID]
+	if Player == nil {
+		return
+	}
+	Msg := &playerMsg.GS2C_PlayerLeave{
+		UId: Player.UIDDes,
+	}
+	bytes, err := proto.Marshal(Msg)
+	if err != nil {
+		return
+	}
+	rsp := &network.Message{
+		ID:   uint64(messageId.MessageId_GS2C_PlayerLeave),
+		Data: bytes,
+	}
+	delete(pm.players, UID)
+	for _, v := range pm.players {
+		v.Session.SendMsg(rsp)
+	}
+}
+
+func (pm *PlayerMgr) SendPlayerMoveMsg(msg *network.Message) {
+	fmt.Println("BroadcastSend SendPlayerMoveMsg = ", msg)
 	for _, v := range pm.players {
 		v.Session.SendMsg(msg)
+	}
+}
+
+func (pm *PlayerMgr) SendOnLinePlayerList() {
+	Msg := &playerMsg.GS2C_ONLinePlayerList{}
+	for _, v := range pm.players {
+		posInfo := &playerMsg.PosInfo{
+			X: v.X,
+			Y: v.Y,
+		}
+		info := &playerMsg.ONLinePlayer_Info{
+			UId: v.UIDDes,
+			Pos: posInfo,
+			Dir: v.Dis,
+		}
+		Msg.List = append(Msg.List, info)
+	}
+	bytes, err := proto.Marshal(Msg)
+	if err != nil {
+		return
+	}
+	rsp := &network.Message{
+		ID:   uint64(messageId.MessageId_GS2C_ONLinePlayerList),
+		Data: bytes,
+	}
+	fmt.Println("MessageId_GS2C_ONLinePlayerList = ", rsp)
+	for _, v := range pm.players {
+		v.Session.SendMsg(rsp)
 	}
 }
 
@@ -48,6 +118,8 @@ func (pm *PlayerMgr) Run() {
 		select {
 		case p := <-pm.addPCh:
 			pm.Add(p)
+		case p := <-pm.DelPCh:
+			pm.Del(*p)
 		case broadcastMsg := <-pm.Broadcast:
 			pm.BroadcastSend(broadcastMsg)
 		}

@@ -79,12 +79,11 @@ func (p *Player) ResolveChatMsg(packet *network.Message) {
 		ID:   uint64(messageId.MessageId_GS2C_SendChatMsg),
 		Data: bytes,
 	}
-	p.Broadcast <- rsp
-	//p.Session.SendMsg(rsp)
+	//p.Broadcast <- rsp
+	p.Session.SendMsg(rsp)
 }
 
 func (p *Player) PlayerEnter(packet *network.Message) {
-	fmt.Println("PlayerEnter111111111")
 	req := &playerMsg.C2GS_EnterSence{}
 	err := proto.Unmarshal(packet.Data, req)
 	if err != nil {
@@ -94,6 +93,7 @@ func (p *Player) PlayerEnter(packet *network.Message) {
 	p.X = req.Pos.X
 	p.Y = req.Pos.Y
 	p.Dis = req.Dir
+	p.UIDDes = req.UId
 	posInfo := &playerMsg.PosInfo{
 		X: req.Pos.X,
 		Y: req.Pos.Y,
@@ -124,6 +124,7 @@ func (p *Player) PlayerMove(packet *network.Message) {
 	p.Y = req.Pos.Y
 	//p.Dis = req.Dir
 	bytes, err := proto.Marshal(&playerMsg.GS2C_PlayerMove{
+		UId: p.UIDDes,
 		Pos: posInfo,
 	})
 	rsp := &network.Message{
@@ -131,5 +132,22 @@ func (p *Player) PlayerMove(packet *network.Message) {
 		Data: bytes,
 	}
 	fmt.Println("PlayerMove", rsp)
-	p.Session.SendMsg(rsp)
+	p.Broadcast <- rsp
+	//p.Session.SendMsg(rsp)
+}
+func (p *Player) PlayerStopMove(packet *network.Message) {
+	req := &playerMsg.C2GS_PlayerStopMove{}
+	err := proto.Unmarshal(packet.Data, req)
+	if err != nil {
+		return
+	}
+	bytes, err := proto.Marshal(&playerMsg.GS2C_PlayerStopMove{
+		UId: p.UIDDes,
+	})
+	rsp := &network.Message{
+		ID:   uint64(messageId.MessageId_GS2C_PlayerStopMove),
+		Data: bytes,
+	}
+	fmt.Println("PlayerMove", rsp)
+	p.Broadcast <- rsp
 }
