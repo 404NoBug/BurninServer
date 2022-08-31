@@ -50,6 +50,13 @@ func (s *Session) Read() {
 			Sess: s,
 		})
 		if err == io.EOF {
+			defer func(Conn net.Conn) {
+				err := Conn.Close()
+				fmt.Println("Conn.Close = ", err)
+				if err != nil {
+					fmt.Println("Conn.Close Err = ", err)
+				}
+			}(s.Conn)
 			fmt.Println("Read Over")
 			return
 		}
@@ -57,6 +64,7 @@ func (s *Session) Read() {
 }
 
 func (s *Session) Write() {
+	fmt.Println("WriteWrite")
 	for {
 		select {
 		case resp := <-s.WriteCh:
