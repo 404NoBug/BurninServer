@@ -12,6 +12,12 @@ message S2C_CreatePlayer{
 
 }
 
+message C2GS_MsgPing{
+
+}
+message GS2C_MsgPong{
+
+}
 message C2S_Login{
 	string  UserName=1;
 	string  Password=2;
