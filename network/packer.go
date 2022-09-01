@@ -2,7 +2,6 @@ package network
 
 import (
 	"encoding/binary"
-	"fmt"
 	"io"
 	"net"
 	"time"
@@ -14,12 +13,9 @@ type NormalPacker struct {
 
 func (p *NormalPacker) Pack(message *Message) ([]byte, error) {
 	buffer := make([]byte, 8+8+len(message.Data))
-	fmt.Println("Pack len(buffer) = ", len(buffer))
 	p.ByteOrder.PutUint64(buffer[0:8], uint64(len(buffer)))
 	p.ByteOrder.PutUint64(buffer[8:16], message.ID)
-	fmt.Println("message.ID = ", message.ID)
 	copy(buffer[16:], message.Data)
-	fmt.Println("message.Data = ", message.Data)
 	return buffer, nil
 }
 

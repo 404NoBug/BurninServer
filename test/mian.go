@@ -1,45 +1,48 @@
 package main
 
 import (
-	"encoding/binary"
+	"context"
+	"encoding/json"
 	"fmt"
+	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"log"
 )
 
 func main() {
-	//reader := bufio.NewReader(os.Stdin)
-	//ch := make(chan []string)
-	//go func() {
-	//	for {
-	//		select {
-	//		case input := <-ch:
-	//			fmt.Println("===============", input)
-	//		}
-	//	}
-	//}()
-	//for {
-	//	readString, err := reader.ReadString('\n')
-	//	if err != nil {
-	//		fmt.Println("input err ,check your input and  try again !!!")
-	//		continue
-	//	}
-	//	strings.TrimSpace(readString)
-	//	readString = strings.Replace(readString, "\n", "", -1)
-	//	readString = strings.Replace(readString, "\r", "", -1)
-	//	split := strings.Split(readString, " ")
-	//	if len(split) == 0 {
-	//		fmt.Println("input err, check your input and  try again !!! ")
-	//		continue
-	//	}
-	//	ch <- split
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found")
+	}
+	uri := "mongodb://127.0.0.1:27017/" //os.Getenv("MONGODB_URI")
+	//if uri == "" {
+	//	log.Fatal("You must set your 'MONGODB_URI' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
 	//}
-	i := uint64(123456789)
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
+	if err != nil {
+		panic(err)
+	}
+	defer func() {
+		if err := client.Disconnect(context.TODO()); err != nil {
+			panic(err)
+		}
+	}()
+	coll := client.Database("sample_mflix").Collection("movies")
+	title := "Back to the Future"
+	var result bson.M
+	err = coll.FindOne(context.TODO(), bson.D{{"title", title}}).Decode(&result)
+	if err == mongo.ErrNoDocuments {
+		fmt.Printf("No document was found with the title %s\n", title)
+		return
+	}
+	if err != nil {
+		panic(err)
+	}
+	jsonData, err := json.MarshalIndent(result, "", "    ")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%s\n", jsonData)
 
-	fmt.Println(i)
-
-	b := make([]byte, 8)
-	binary.BigEndian.PutUint64(b, i)
-
-	fmt.Println(b[:])
-
-	i = uint64(binary.BigEndian.Uint64(b))
 }

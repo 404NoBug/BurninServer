@@ -6,24 +6,30 @@ import (
 )
 
 type Player struct {
-	UId            uint64
-	FriendList     []string //朋友
-	Hp             uint32
-	X              float32
-	Y              float32
-	Dis            float32
-	UIDDes         string
+	PlayerInfo     *Player_Info
 	HandlerParamCh chan *network.Message
 	handlers       map[messageId.MessageId]Handler
 	Session        *network.Session
 	Broadcast      chan *network.Message
 }
+type Player_Info struct {
+	UId        uint64
+	FriendList []string //朋友
+	Hp         uint32
+	X          float32
+	Y          float32
+	Dis        float32
+	UIDDes     string
+}
 
 func NewPlayer() *Player {
+	pi := &Player_Info{
+		UId:        0,
+		Hp:         100,
+		FriendList: make([]string, 100),
+	}
 	p := &Player{
-		UId:            0,
-		Hp:             100,
-		FriendList:     make([]string, 100),
+		PlayerInfo:     pi,
 		handlers:       make(map[messageId.MessageId]Handler),
 		HandlerParamCh: make(chan *network.Message, 10),
 	}

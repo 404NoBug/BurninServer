@@ -27,11 +27,11 @@ func NewPlayerMgr() *PlayerMgr {
 }
 
 func (pm *PlayerMgr) Add(p *player.Player) {
-	if pm.players[p.UId] != nil {
+	if pm.players[p.PlayerInfo.UId] != nil {
 		return
 	}
 	fmt.Println("Add Player")
-	pm.players[p.UId] = p
+	pm.players[p.PlayerInfo.UId] = p
 	go p.Run()
 }
 
@@ -61,7 +61,7 @@ func (pm *PlayerMgr) SendPlayerLeaveGame(UID uint64) {
 		return
 	}
 	Msg := &playerMsg.GS2C_PlayerLeave{
-		UId: Player.UIDDes,
+		UId: Player.PlayerInfo.UIDDes,
 	}
 	bytes, err := proto.Marshal(Msg)
 	if err != nil {
@@ -81,13 +81,13 @@ func (pm *PlayerMgr) SendOnLinePlayerList() {
 	Msg := &playerMsg.GS2C_ONLinePlayerList{}
 	for _, v := range pm.players {
 		posInfo := &playerMsg.PosInfo{
-			X: v.X,
-			Y: v.Y,
+			X: v.PlayerInfo.X,
+			Y: v.PlayerInfo.Y,
 		}
 		info := &playerMsg.ONLinePlayer_Info{
-			UId: v.UIDDes,
+			UId: v.PlayerInfo.UIDDes,
 			Pos: posInfo,
-			Dir: v.Dis,
+			Dir: v.PlayerInfo.Dis,
 		}
 		Msg.List = append(Msg.List, info)
 	}

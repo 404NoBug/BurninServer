@@ -9,6 +9,15 @@ import (
 	"time"
 )
 
+func (mm MgrMgr) MsgPing(message *network.SessionPacket) {
+	msg := &playerMsg.GS2C_MsgPong{}
+	err := proto.Unmarshal(message.Msg.Data, msg)
+	if err != nil {
+		return
+	}
+	//mm.SendMsg(uint64(messageId.MessageId_C2GS_MsgPong), &playerMsg.GS2C_MsgPong{}, message.Sess)
+}
+
 func (mm *MgrMgr) CreatePlayer(message *network.SessionPacket) {
 	msg := &playerMsg.S2C_CreatePlayer{}
 	err := proto.Unmarshal(message.Msg.Data, msg)
@@ -16,7 +25,6 @@ func (mm *MgrMgr) CreatePlayer(message *network.SessionPacket) {
 		return
 	}
 	mm.SendMsg(uint64(messageId.MessageId_S2C_CreatePlayer), &playerMsg.S2C_CreatePlayer{}, message.Sess)
-
 }
 
 func (mm *MgrMgr) UserLogin(message *network.SessionPacket) {
@@ -26,9 +34,9 @@ func (mm *MgrMgr) UserLogin(message *network.SessionPacket) {
 		return
 	}
 	newPlayer := logicPlayer.NewPlayer()
-	newPlayer.UId = uint64(time.Now().Unix())
+	newPlayer.PlayerInfo.UId = uint64(time.Now().Unix())
 	message.Sess.IsPlayerOnline = true
-	message.Sess.UId = newPlayer.UId
+	message.Sess.UId = newPlayer.PlayerInfo.UId
 	newPlayer.Session = message.Sess
 	newPlayer.Broadcast = mm.Pm.Broadcast
 	mm.Pm.Add(newPlayer)

@@ -20,8 +20,8 @@ func (p *Player) AddFriend(packet *network.Message) {
 		return
 	}
 
-	if !sugar.CheckInSlice(req.UId, p.FriendList) {
-		p.FriendList = append(p.FriendList, req.UId)
+	if !sugar.CheckInSlice(req.UId, p.PlayerInfo.FriendList) {
+		p.PlayerInfo.FriendList = append(p.PlayerInfo.FriendList, req.UId)
 	}
 
 	bytes, err := proto.Marshal(&playerMsg.GS2C_SendChatMsg{})
@@ -43,7 +43,7 @@ func (p *Player) DelFriend(packet *network.Message) {
 	if err != nil {
 		return
 	}
-	p.FriendList = sugar.DelOneInSlice(req.UId, p.FriendList)
+	p.PlayerInfo.FriendList = sugar.DelOneInSlice(req.UId, p.PlayerInfo.FriendList)
 
 	bytes, err := proto.Marshal(&playerMsg.GS2C_DelFriend{})
 	if err != nil {
@@ -87,10 +87,10 @@ func (p *Player) PlayerEnter(packet *network.Message) {
 	if err != nil {
 		return
 	}
-	p.X = req.Pos.X
-	p.Y = req.Pos.Y
-	p.Dis = req.Dir
-	p.UIDDes = req.UId
+	p.PlayerInfo.X = req.Pos.X
+	p.PlayerInfo.Y = req.Pos.Y
+	p.PlayerInfo.Dis = req.Dir
+	p.PlayerInfo.UIDDes = req.UId
 	posInfo := &playerMsg.PosInfo{
 		X: req.Pos.X,
 		Y: req.Pos.Y,
@@ -117,11 +117,11 @@ func (p *Player) PlayerMove(packet *network.Message) {
 		X: req.Pos.X,
 		Y: req.Pos.Y,
 	}
-	p.X = req.Pos.X
-	p.Y = req.Pos.Y
+	p.PlayerInfo.X = req.Pos.X
+	p.PlayerInfo.Y = req.Pos.Y
 	//p.Dis = req.Dir
 	bytes, err := proto.Marshal(&playerMsg.GS2C_PlayerMove{
-		UId: p.UIDDes,
+		UId: p.PlayerInfo.UIDDes,
 		Pos: posInfo,
 	})
 	rsp := &network.Message{
@@ -137,9 +137,9 @@ func (p *Player) PlayerStopMove(packet *network.Message) {
 	if err != nil {
 		return
 	}
-	p.Dis = req.Dir
+	p.PlayerInfo.Dis = req.Dir
 	bytes, err := proto.Marshal(&playerMsg.GS2C_PlayerStopMove{
-		UId: p.UIDDes,
+		UId: p.PlayerInfo.UIDDes,
 		Dir: req.Dir,
 	})
 	rsp := &network.Message{
