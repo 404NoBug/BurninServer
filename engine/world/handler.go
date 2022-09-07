@@ -15,7 +15,21 @@ func (mm MgrMgr) MsgPing(message *network.SessionPacket) {
 	if err != nil {
 		return
 	}
-	//mm.SendMsg(uint64(messageId.MessageId_C2GS_MsgPong), &playerMsg.GS2C_MsgPong{}, message.Sess)
+	message.Sess.LastPingTime = uint64(time.Now().Unix())
+	mm.SendMsg(uint64(messageId.MessageId_C2GS_MsgPong), &playerMsg.GS2C_MsgPong{}, message.Sess)
+}
+
+func (mm MgrMgr) CreateAccount(message *network.SessionPacket) {
+	req := &playerMsg.C2S_Register_Accoount{}
+	err := proto.Unmarshal(message.Msg.Data, req)
+	if err != nil {
+		return
+	}
+	if mm.MongoDb.FindOne(req.UserAccoount, req.Password) != nil {
+
+	} else {
+		mm.SendMsg(uint64(messageId.MessageId_S2C_Register_Accoount), &playerMsg.S2C_Register_Accoount{RetCode: 1}, message.Sess)
+	}
 }
 
 func (mm *MgrMgr) CreatePlayer(message *network.SessionPacket) {

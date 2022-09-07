@@ -1,21 +1,21 @@
 package config
 
 import (
+	"github.com/xiaonanln/goworld/engine/gwlog"
 	"testing"
 
 	"encoding/json"
 
 	"github.com/bmizerany/assert"
-	"github.com/xiaonanln/goworld/engine/gwlog"
 )
 
 func init() {
-	SetConfigFile("../../goworld.ini.sample")
+	SetConfigFile("../../burnin.ini.sample")
 }
 
 func TestLoad(t *testing.T) {
 	config := Get()
-	gwlog.Debugf("goworld config: \n%s", config)
+	gwlog.Debugf("burnin config: \n%s", config)
 	if config == nil {
 		t.FailNow()
 	}
@@ -26,13 +26,13 @@ func TestLoad(t *testing.T) {
 		}
 	}
 
-	gwlog.Infof("read goworld config: %v", config)
+	gwlog.Infof("read burnin config: %v", config)
 }
 
 func TestReload(t *testing.T) {
 	Get()
 	config := Reload()
-	gwlog.Debugf("goworld config: \n%s", config)
+	gwlog.Debugf("burnin config: \n%s", config)
 }
 
 func TestGetDeployment(t *testing.T) {
@@ -76,5 +76,5 @@ func TestGetGate(t *testing.T) {
 }
 
 func TestSetConfigFile(t *testing.T) {
-	SetConfigFile("../../goworld.ini")
+	SetConfigFile("../../burnin.ini")
 }

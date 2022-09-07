@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+const pingInterval = 2
+
 type Session struct {
 	UId            uint64
 	Conn           net.Conn
@@ -17,25 +19,65 @@ type Session struct {
 	WriteCh        chan *Message
 	IsPlayerOnline bool
 	MessageHandler func(packet *SessionPacket)
+	LastPingTime   uint64
 	//
 }
 
 func NewSession(conn net.Conn) *Session {
 	return &Session{
-		Conn:    conn,
-		packer:  &NormalPacker{ByteOrder: binary.BigEndian},
-		WriteCh: make(chan *Message, 10)}
+		Conn:         conn,
+		packer:       &NormalPacker{ByteOrder: binary.BigEndian},
+		WriteCh:      make(chan *Message, 10),
+		LastPingTime: uint64(time.Now().Unix()),
+	}
 }
 
 func (s *Session) Run() {
 	logger.Logger.InfoF("Session  Run:", s)
 	go s.Read()
 	go s.Write()
+	go s.Ticker()
+}
 
+func (s *Session) Ticker() {
+	myTimer := time.NewTimer(time.Second) // 启动定时器
+	defer func(Conn net.Conn) {
+		err := Conn.Close()
+		logger.Logger.InfoF("Conn.Close = ", err)
+		if err != nil {
+			logger.Logger.InfoF("CheckPing Conn.Close err = ", err)
+		}
+	}(s.Conn)
+ForEnd:
+	for {
+		select {
+		case <-myTimer.C:
+			if s.CheckPing() {
+				break ForEnd
+			}
+			myTimer.Reset(time.Second) // 每次使用完后需要人为重置下
+		}
+	}
+	// 不再使用了，结束它
+	myTimer.Stop()
+}
+
+//Ping检查
+func (s *Session) CheckPing() bool {
+	//现在的时间戳
+	timeNow := uint64(time.Now().Unix())
+	if timeNow-s.LastPingTime > pingInterval*4 {
+		return true
+	} else {
+		return false
+	}
 }
 
 func (s *Session) Read() {
 	for {
+		if s.Conn == nil {
+			return
+		}
 		err := s.Conn.SetReadDeadline(time.Now().Add(time.Second))
 		if err != nil {
 			fmt.Println(err)
@@ -64,7 +106,6 @@ func (s *Session) Read() {
 }
 
 func (s *Session) Write() {
-	fmt.Println("WriteWrite")
 	for {
 		select {
 		case resp := <-s.WriteCh:

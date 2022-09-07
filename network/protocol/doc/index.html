@@ -265,6 +265,10 @@
                 </li>
               
                 <li>
+                  <a href="#playerMsg.C2S_Register_Accoount"><span class="badge">M</span>C2S_Register_Accoount</a>
+                </li>
+              
+                <li>
                   <a href="#playerMsg.ChatMessage"><span class="badge">M</span>ChatMessage</a>
                 </li>
               
@@ -314,6 +318,10 @@
               
                 <li>
                   <a href="#playerMsg.S2C_Login"><span class="badge">M</span>S2C_Login</a>
+                </li>
+              
+                <li>
+                  <a href="#playerMsg.S2C_Register_Accoount"><span class="badge">M</span>S2C_Register_Accoount</a>
                 </li>
               
                 <li>
@@ -437,26 +445,38 @@
               </tr>
             
               <tr>
-                <td>C2S_CreatePlayer</td>
+                <td>C2S_Register_Accoount</td>
                 <td>50001</td>
                 <td><p></p></td>
               </tr>
             
               <tr>
-                <td>S2C_CreatePlayer</td>
+                <td>S2C_Register_Accoount</td>
                 <td>50002</td>
                 <td><p></p></td>
               </tr>
             
               <tr>
-                <td>C2S_Login</td>
+                <td>C2S_CreatePlayer</td>
                 <td>50003</td>
                 <td><p></p></td>
               </tr>
             
               <tr>
-                <td>S2C_Login</td>
+                <td>S2C_CreatePlayer</td>
                 <td>50004</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>C2S_Login</td>
+                <td>50005</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>S2C_Login</td>
+                <td>50006</td>
                 <td><p></p></td>
               </tr>
             
@@ -853,6 +873,36 @@
 
         
       
+        <h3 id="playerMsg.C2S_Register_Accoount">C2S_Register_Accoount</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>UserAccoount</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>Password</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+        
+
+        
+      
         <h3 id="playerMsg.ChatMessage">ChatMessage</h3>
         <p></p>
 
@@ -1175,6 +1225,29 @@
                   <td><a href="#bool">bool</a></td>
                   <td></td>
                   <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+        
+
+        
+      
+        <h3 id="playerMsg.S2C_Register_Accoount">S2C_Register_Accoount</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>ret_code</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>0：成功 1：账号存在 2：账号、密码格式错误 3：服务器内部错误 </p></td>
                 </tr>
               
             </tbody>

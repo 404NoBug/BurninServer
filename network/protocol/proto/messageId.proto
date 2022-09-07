@@ -7,10 +7,12 @@ option go_package="/messageId";
 enum MessageId {
   None =0;
 
-  C2S_CreatePlayer = 50001;
-  S2C_CreatePlayer = 50002;
-  C2S_Login = 50003;
-  S2C_Login = 50004;
+  C2S_Register_Accoount = 50001;
+  S2C_Register_Accoount = 50002;
+  C2S_CreatePlayer = 50003;
+  S2C_CreatePlayer = 50004;
+  C2S_Login = 50005;
+  S2C_Login = 50006;
 
   //heartbeat
   C2GS_MsgPing = 80001;

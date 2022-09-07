@@ -35,6 +35,216 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on C2S_Register_Accoount with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *C2S_Register_Accoount) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on C2S_Register_Accoount with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// C2S_Register_AccoountMultiError, or nil if none found.
+func (m *C2S_Register_Accoount) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *C2S_Register_Accoount) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for UserAccoount
+
+	// no validation rules for Password
+
+	if len(errors) > 0 {
+		return C2S_Register_AccoountMultiError(errors)
+	}
+
+	return nil
+}
+
+// C2S_Register_AccoountMultiError is an error wrapping multiple validation
+// errors returned by C2S_Register_Accoount.ValidateAll() if the designated
+// constraints aren't met.
+type C2S_Register_AccoountMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m C2S_Register_AccoountMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m C2S_Register_AccoountMultiError) AllErrors() []error { return m }
+
+// C2S_Register_AccoountValidationError is the validation error returned by
+// C2S_Register_Accoount.Validate if the designated constraints aren't met.
+type C2S_Register_AccoountValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e C2S_Register_AccoountValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e C2S_Register_AccoountValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e C2S_Register_AccoountValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e C2S_Register_AccoountValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e C2S_Register_AccoountValidationError) ErrorName() string {
+	return "C2S_Register_AccoountValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e C2S_Register_AccoountValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sC2S_Register_Accoount.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = C2S_Register_AccoountValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = C2S_Register_AccoountValidationError{}
+
+// Validate checks the field values on S2C_Register_Accoount with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *S2C_Register_Accoount) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on S2C_Register_Accoount with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// S2C_Register_AccoountMultiError, or nil if none found.
+func (m *S2C_Register_Accoount) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *S2C_Register_Accoount) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for RetCode
+
+	if len(errors) > 0 {
+		return S2C_Register_AccoountMultiError(errors)
+	}
+
+	return nil
+}
+
+// S2C_Register_AccoountMultiError is an error wrapping multiple validation
+// errors returned by S2C_Register_Accoount.ValidateAll() if the designated
+// constraints aren't met.
+type S2C_Register_AccoountMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m S2C_Register_AccoountMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m S2C_Register_AccoountMultiError) AllErrors() []error { return m }
+
+// S2C_Register_AccoountValidationError is the validation error returned by
+// S2C_Register_Accoount.Validate if the designated constraints aren't met.
+type S2C_Register_AccoountValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e S2C_Register_AccoountValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e S2C_Register_AccoountValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e S2C_Register_AccoountValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e S2C_Register_AccoountValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e S2C_Register_AccoountValidationError) ErrorName() string {
+	return "S2C_Register_AccoountValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e S2C_Register_AccoountValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sS2C_Register_Accoount.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = S2C_Register_AccoountValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = S2C_Register_AccoountValidationError{}
+
 // Validate checks the field values on C2S_CreatePlayer with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.
