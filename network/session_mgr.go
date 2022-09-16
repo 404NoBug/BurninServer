@@ -1,9 +1,12 @@
 package network
 
-import "sync"
+import (
+	"BurninProject/engine/common"
+	"sync"
+)
 
 type SessionMgr struct {
-	Sessions map[uint64]*Session
+	Sessions map[common.EntityID]*Session
 	Counter  int64 //计数器
 	Mutex    sync.Mutex
 	Pid      int64
@@ -17,7 +20,7 @@ var (
 func init() {
 	onceInitSessionMgr.Do(func() {
 		SessionMgrInstance = SessionMgr{
-			Sessions: make(map[uint64]*Session),
+			Sessions: make(map[common.EntityID]*Session),
 			Counter:  0,
 			Mutex:    sync.Mutex{},
 		}
@@ -38,6 +41,6 @@ func (sm *SessionMgr) AddSession(s *Session) {
 }
 
 //DelSession ...
-func (sm *SessionMgr) DelSession(UId uint64) {
+func (sm *SessionMgr) DelSession(UId common.EntityID) {
 	delete(sm.Sessions, UId)
 }

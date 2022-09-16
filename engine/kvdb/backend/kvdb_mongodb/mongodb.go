@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	_DEFAULT_DB_NAME = "goworld"
+	_DEFAULT_DB_NAME = "Burnin"
 	_VAL_KEY         = "_"
 )
 

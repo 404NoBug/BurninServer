@@ -3,6 +3,7 @@ package world
 import (
 	"BurninProject/aop/logger"
 	"BurninProject/engine/MongoDB"
+	"BurninProject/engine/config"
 	"BurninProject/engine/manager"
 	"BurninProject/network"
 	"BurninProject/network/protocol/gen/messageId"
@@ -19,8 +20,9 @@ type MgrMgr struct {
 }
 
 func NewMgrMgr() *MgrMgr {
+	cfg := config.GetGate(1)
 	m := &MgrMgr{Pm: manager.NewPlayerMgr()}
-	m.Server = network.NewServer(":8888")
+	m.Server = network.NewServer(cfg.ListenAddr)
 	m.Server.OnSessionPacket = m.OnSessionPacket
 	m.Handlers = make(map[messageId.MessageId]func(message *network.SessionPacket))
 	m.MongoDb = MongoDB.InitMongoConn("127.0.0.1:27017", "locahost", "123456", "Burnin")
@@ -37,7 +39,7 @@ func (mm *MgrMgr) Run() {
 
 func (mm *MgrMgr) OnSessionPacket(packet *network.SessionPacket) {
 	if packet.Msg == nil {
-		if packet.Sess.UId != 0 {
+		if packet.Sess.UId != "" {
 			mm.Pm.DelPCh <- &packet.Sess.UId
 		}
 		return

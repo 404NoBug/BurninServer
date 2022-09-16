@@ -33,9 +33,12 @@ message C2S_Login{
 }
 
 message S2C_Login{
+	int64  PlayerId =1;
 	bool  Ok =2;
 }
+message S2C_Kick{
 
+}
 message	C2GS_EnterSence{
 	string UId = 1;
 	pos_info pos = 2; //坐标

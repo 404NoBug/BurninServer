@@ -2,6 +2,7 @@ package network
 
 import (
 	"BurninProject/aop/logger"
+	"BurninProject/engine/common"
 	"encoding/binary"
 	"fmt"
 	"io"
@@ -12,7 +13,7 @@ import (
 const pingInterval = 2
 
 type Session struct {
-	UId            uint64
+	UId            common.EntityID
 	Conn           net.Conn
 	IsClose        bool
 	packer         IPacker

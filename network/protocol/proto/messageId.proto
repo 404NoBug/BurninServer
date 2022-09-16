@@ -13,6 +13,7 @@ enum MessageId {
   S2C_CreatePlayer = 50004;
   C2S_Login = 50005;
   S2C_Login = 50006;
+  S2C_Kick = 50007;
 
   //heartbeat
   C2GS_MsgPing = 80001;

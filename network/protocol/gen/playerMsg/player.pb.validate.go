@@ -772,6 +772,8 @@ func (m *S2C_Login) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for PlayerId
+
 	// no validation rules for Ok
 
 	if len(errors) > 0 {
@@ -850,6 +852,105 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = S2C_LoginValidationError{}
+
+// Validate checks the field values on S2C_Kick with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *S2C_Kick) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on S2C_Kick with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in S2C_KickMultiError, or nil
+// if none found.
+func (m *S2C_Kick) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *S2C_Kick) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return S2C_KickMultiError(errors)
+	}
+
+	return nil
+}
+
+// S2C_KickMultiError is an error wrapping multiple validation errors returned
+// by S2C_Kick.ValidateAll() if the designated constraints aren't met.
+type S2C_KickMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m S2C_KickMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m S2C_KickMultiError) AllErrors() []error { return m }
+
+// S2C_KickValidationError is the validation error returned by
+// S2C_Kick.Validate if the designated constraints aren't met.
+type S2C_KickValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e S2C_KickValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e S2C_KickValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e S2C_KickValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e S2C_KickValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e S2C_KickValidationError) ErrorName() string { return "S2C_KickValidationError" }
+
+// Error satisfies the builtin error interface
+func (e S2C_KickValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sS2C_Kick.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = S2C_KickValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = S2C_KickValidationError{}
 
 // Validate checks the field values on C2GS_EnterSence with the rules defined
 // in the proto definition for this message. If any rules are violated, the

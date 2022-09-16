@@ -13,7 +13,7 @@ db=goworld
 
 [kvdb]
 type=mongodb
-url=mongodb://127.0.0.1:27017/goworld
+url=mongodb://127.0.0.1:27017/Burnin
 db=goworld
 collection=__kv__
 ;type=redis

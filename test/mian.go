@@ -1,9 +1,6 @@
 package main
 
-import (
-	"BurninProject/engine/MongoDB"
-	"fmt"
-)
+import "BurninProject/engine/gameConf/csv"
 
 type PlayerAccount struct {
 	ACCOUNT  string
@@ -11,18 +8,18 @@ type PlayerAccount struct {
 }
 
 func main() {
-	mongoDB := MongoDB.InitMongoConn("127.0.0.1", "", "", "Burnin")
-	playerAccount := PlayerAccount{ACCOUNT: "gy001", PASSWORD: "123456"}
-	mongoDB.InsertOneData(playerAccount)
-	N := mongoDB.FindOne("account", "gy001")
-	if N != nil {
-		var result interface{}
-		err := N.Decode(&result)
-		if err != nil {
-			fmt.Println("err = ", err)
-		}
-		fmt.Println("test = ", result)
-	}
+	//mongoDB := MongoDB.InitMongoConn("127.0.0.1", "", "", "Burnin")
+	//playerAccount := PlayerAccount{ACCOUNT: "gy001", PASSWORD: "123456"}
+	//mongoDB.InsertOneData(playerAccount)
+	//N := mongoDB.FindOne("account", "gy001")
+	//if N != nil {
+	//	var result interface{}
+	//	err := N.Decode(&result)
+	//	if err != nil {
+	//		fmt.Println("err = ", err)
+	//	}
+	//	fmt.Println("test = ", result)
+	//}
 
 	//if err := godotenv.Load(); err != nil {
 	//	log.Println("No .env file found")
@@ -56,5 +53,5 @@ func main() {
 	//	panic(err)
 	//}
 	//fmt.Printf("%s\n", jsonData)
-
+	csv.ReadCsv_ConfigFile_RoomListST_Fun()
 }

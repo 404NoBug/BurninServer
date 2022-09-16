@@ -47,14 +47,12 @@ func (mm *MgrMgr) UserLogin(message *network.SessionPacket) {
 	if err != nil {
 		return
 	}
-	newPlayer := logicPlayer.NewPlayer()
-	newPlayer.PlayerInfo.UId = uint64(time.Now().Unix())
+	newPlayer := logicPlayer.NewPlayer("")
 	message.Sess.IsPlayerOnline = true
 	message.Sess.UId = newPlayer.PlayerInfo.UId
 	newPlayer.Session = message.Sess
 	newPlayer.Broadcast = mm.Pm.Broadcast
 	mm.Pm.Add(newPlayer)
-
 }
 
 func (mm *MgrMgr) SendMsg(id uint64, message proto.Message, session *network.Session) {

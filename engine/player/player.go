@@ -1,6 +1,7 @@
 package player
 
 import (
+	"BurninProject/engine/common"
 	"BurninProject/network"
 	"BurninProject/network/protocol/gen/messageId"
 )
@@ -13,7 +14,7 @@ type Player struct {
 	Broadcast      chan *network.Message
 }
 type Player_Info struct {
-	UId        uint64
+	UId        common.EntityID
 	FriendList []string //朋友
 	Hp         uint32
 	X          float32
@@ -22,9 +23,12 @@ type Player_Info struct {
 	UIDDes     string
 }
 
-func NewPlayer() *Player {
+func NewPlayer(entityID common.EntityID) *Player {
+	if entityID == "" {
+		entityID = common.GenEntityID()
+	}
 	pi := &Player_Info{
-		UId:        0,
+		UId:        entityID,
 		Hp:         100,
 		FriendList: make([]string, 100),
 	}
