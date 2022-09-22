@@ -18,3 +18,16 @@ func TestNewSensitiveTrie(t *testing.T) {
 	fmt.Println("match", match)
 	fmt.Println("text", text)
 }
+
+func TestHansCovertPinyin(t *testing.T) {
+	sensitiveWords := []string{
+		"傻逼",
+		"傻叉",
+		"垃圾",
+		"妈的",
+		"sb",
+	}
+	// 汉字转拼音
+	pinyinContents := HansCovertPinyin(sensitiveWords)
+	fmt.Println(pinyinContents)
+}
