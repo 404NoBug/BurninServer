@@ -2,10 +2,11 @@ package main
 
 import (
 	"BurninProject/aop/logger"
+	"BurninProject/engine/config"
+	"BurninProject/engine/kvdb"
 	"BurninProject/engine/world"
 	"flag"
 	"github.com/phuhao00/sugar"
-	"github.com/xiaonanln/goworld/engine/config"
 	"math/rand"
 	"time"
 )
@@ -37,7 +38,7 @@ func main() {
 	if configFile != "" {
 		config.SetConfigFile(configFile)
 	}
-
+	kvdb.Initialize()
 	world.MM = world.NewMgrMgr()
 	go world.MM.Run()
 	logger.Logger.InfoF("server start !!")
