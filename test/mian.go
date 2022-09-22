@@ -1,57 +1,82 @@
 package main
 
-import "BurninProject/engine/gameConf/csv"
+import (
+	"context"
+	"fmt"
+	"github.com/shirou/gopsutil/process"
+	"math/rand"
+	"os"
+)
 
-type PlayerAccount struct {
-	ACCOUNT  string
-	PASSWORD string
+// 定义飞行动物接口
+type Flyer interface {
+	Fly()
+}
+
+// 定义行走动物接口
+type Walker interface {
+	Walk()
+}
+
+// 定义鸟类
+type bird struct {
+}
+
+// 实现飞行动物接口
+func (b *bird) Fly() {
+	fmt.Println("bird: fly")
+}
+
+// 为鸟添加Walk()方法, 实现行走动物接口
+func (b *bird) Walk() {
+	fmt.Println("bird: walk")
+}
+
+// 定义猪
+type pig struct {
+}
+
+// 为猪添加Walk()方法, 实现行走动物接口
+func (p *pig) Walk() {
+	fmt.Println("pig: walk")
 }
 
 func main() {
-	//mongoDB := MongoDB.InitMongoConn("127.0.0.1", "", "", "Burnin")
-	//playerAccount := PlayerAccount{ACCOUNT: "gy001", PASSWORD: "123456"}
-	//mongoDB.InsertOneData(playerAccount)
-	//N := mongoDB.FindOne("account", "gy001")
-	//if N != nil {
-	//	var result interface{}
-	//	err := N.Decode(&result)
-	//	if err != nil {
-	//		fmt.Println("err = ", err)
-	//	}
-	//	fmt.Println("test = ", result)
-	//}
 
-	//if err := godotenv.Load(); err != nil {
-	//	log.Println("No .env file found")
+	//// 创建动物的名字到实例的映射
+	//animals := map[string]interface{}{
+	//	"bird": new(bird),
+	//	"pig":  new(pig),
 	//}
-	//uri := "mongodb://127.0.0.1:27017/" //os.Getenv("MONGODB_URI")
-	//if uri == "" {
-	//	log.Fatal("You must set your 'MONGODB_URI' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
-	//}
-	//client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
-	//if err != nil {
-	//	panic(err)
-	//}
-	//defer func() {
-	//	if err := client.Disconnect(context.TODO()); err != nil {
-	//		panic(err)
+	//
+	//// 遍历映射
+	//for name, obj := range animals {
+	//
+	//	// 判断对象是否为飞行动物
+	//	f, isFlyer := obj.(Flyer)
+	//	// 判断对象是否为行走动物
+	//	w, isWalker := obj.(Walker)
+	//
+	//	fmt.Printf("name: %s isFlyer: %v isWalker: %v\n", name, isFlyer, isWalker)
+	//
+	//	// 如果是飞行动物则调用飞行动物接口
+	//	if isFlyer {
+	//		f.Fly()
 	//	}
-	//}()
-	//coll := client.Database("sample_mflix").Collection("movies")
-	//title := ""
-	//var result bson.M
-	//err = coll.FindOne(context.TODO(), bson.D{{"sese", title}}).Decode(&result)
-	//if err == mongo.ErrNoDocuments {
-	//	fmt.Printf("No document was found with the title %s\n", title)
-	//	return
+	//
+	//	// 如果是行走动物则调用行走动物接口
+	//	if isWalker {
+	//		w.Walk()
+	//	}
 	//}
-	//if err != nil {
-	//	panic(err)
-	//}
-	//jsonData, err := json.MarshalIndent(result, "", "    ")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//fmt.Printf("%s\n", jsonData)
-	csv.ReadCsv_ConfigFile_RoomListST_Fun()
+	pid := os.Getpid()
+	p, err := process.NewProcess(int32(pid))
+	if err != nil {
+		fmt.Println("err1", err)
+	}
+	pcnt, err := p.CPUPercentWithContext(context.Background())
+	if err != nil {
+		fmt.Println("err2", err)
+	}
+	fmt.Println("pcnt", pcnt, rand.Float64())
 }

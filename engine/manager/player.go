@@ -3,6 +3,7 @@ package manager
 import (
 	"BurninProject/engine/common"
 	"BurninProject/engine/player"
+	"BurninProject/engine/post"
 	"BurninProject/network"
 	"BurninProject/network/protocol/gen/messageId"
 	"BurninProject/network/protocol/gen/playerMsg"
@@ -106,6 +107,10 @@ func (pm *PlayerMgr) SendOnLinePlayerList() {
 }
 
 func (pm *PlayerMgr) Run() {
+	pm.loop()
+}
+
+func (pm *PlayerMgr) loop() {
 	for {
 		select {
 		case p := <-pm.addPCh:
@@ -115,6 +120,7 @@ func (pm *PlayerMgr) Run() {
 		case broadcastMsg := <-pm.Broadcast:
 			pm.BroadcastSend(broadcastMsg)
 		}
+		post.Tick()
 	}
 }
 

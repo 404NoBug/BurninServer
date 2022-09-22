@@ -2,6 +2,7 @@ package player
 
 import (
 	"BurninProject/engine/common"
+	"BurninProject/engine/post"
 	"BurninProject/network"
 	"BurninProject/network/protocol/gen/messageId"
 )
@@ -42,6 +43,10 @@ func NewPlayer(entityID common.EntityID) *Player {
 }
 
 func (p *Player) Run() {
+	p.loop()
+}
+
+func (p *Player) loop() {
 	for {
 		select {
 		case handlerParam := <-p.HandlerParamCh:
@@ -49,6 +54,7 @@ func (p *Player) Run() {
 				fn(handlerParam)
 			}
 		}
+		post.Tick()
 	}
 }
 

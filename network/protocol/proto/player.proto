@@ -33,8 +33,8 @@ message C2S_Login{
 }
 
 message S2C_Login{
-	int64  PlayerId =1;
-	bool  Ok =2;
+	string  PlayerId =1;
+	int32  Ok =2; //0:成功 1：账号、密码格式错误 2：服务器内部错误
 }
 message S2C_Kick{
 

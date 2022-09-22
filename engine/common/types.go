@@ -3,6 +3,7 @@ package common
 import (
 	"github.com/xiaonanln/goworld/engine/gwlog"
 	"github.com/xiaonanln/goworld/engine/uuid"
+	"gitlab.com/rwxrob/uniq"
 )
 
 // ENTITYID_LENGTH is the length of Entity IDs
@@ -18,7 +19,7 @@ func (id EntityID) IsNil() bool {
 
 // GenEntityID generates a new EntityID
 func GenEntityID() EntityID {
-	return EntityID(uuid.GenUUID())
+	return EntityID(uniq.Base32())
 }
 
 // MustEntityID assures a string to be EntityID

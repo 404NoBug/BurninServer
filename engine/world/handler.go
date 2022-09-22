@@ -1,6 +1,7 @@
 package world
 
 import (
+	"BurninProject/engine/kvdb"
 	logicPlayer "BurninProject/engine/player"
 	"BurninProject/network"
 	"BurninProject/network/protocol/gen/messageId"
@@ -25,11 +26,25 @@ func (mm MgrMgr) CreateAccount(message *network.SessionPacket) {
 	if err != nil {
 		return
 	}
-	if mm.MongoDb.FindOne(req.UserAccoount, req.Password) != nil {
-
-	} else {
-		mm.SendMsg(uint64(messageId.MessageId_S2C_Register_Accoount), &playerMsg.S2C_Register_Accoount{RetCode: 1}, message.Sess)
-	}
+	username := req.UserAccoount
+	passWord := req.Password
+	kvdb.GetOrPut("password$"+username, passWord, func(oldVal string, err error) {
+		if err != nil {
+			mm.SendMsg(uint64(messageId.MessageId_S2C_Register_Accoount), &playerMsg.S2C_Register_Accoount{RetCode: 3}, message.Sess) // 服务器错误
+			return
+		}
+		if oldVal == "" {
+			newPlayer := logicPlayer.NewPlayer("")
+			//player := goworld.CreateEntityLocally("Player") // 创建一个Player对象然后立刻销毁，产生一次存盘
+			//player.Attrs.SetStr("name", username)
+			//player.Destroy()
+			kvdb.Put("playerID$"+username, string(newPlayer.PlayerInfo.UId), func(err error) {
+				mm.SendMsg(uint64(messageId.MessageId_S2C_Register_Accoount), &playerMsg.S2C_Register_Accoount{RetCode: 0}, message.Sess) // 注册成功，请点击登录
+			})
+		} else {
+			mm.SendMsg(uint64(messageId.MessageId_S2C_Register_Accoount), &playerMsg.S2C_Register_Accoount{RetCode: 1}, message.Sess) // 抱歉，这个账号已经存在
+		}
+	})
 }
 
 func (mm *MgrMgr) CreatePlayer(message *network.SessionPacket) {
@@ -53,6 +68,7 @@ func (mm *MgrMgr) UserLogin(message *network.SessionPacket) {
 	newPlayer.Session = message.Sess
 	newPlayer.Broadcast = mm.Pm.Broadcast
 	mm.Pm.Add(newPlayer)
+	mm.SendMsg(uint64(messageId.MessageId_S2C_Login), &playerMsg.S2C_Login{PlayerId: string(newPlayer.PlayerInfo.UId), Ok: 0}, message.Sess)
 }
 
 func (mm *MgrMgr) SendMsg(id uint64, message proto.Message, session *network.Session) {
