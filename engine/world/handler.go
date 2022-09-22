@@ -63,6 +63,8 @@ func (mm *MgrMgr) UserLogin(message *network.SessionPacket) {
 		return
 	}
 	newPlayer := logicPlayer.NewPlayer("")
+	playerPid := newPlayer.CreatPlayerPID()
+	newPlayer.Pid = playerPid
 	message.Sess.IsPlayerOnline = true
 	message.Sess.UId = newPlayer.PlayerInfo.UId
 	newPlayer.Session = message.Sess

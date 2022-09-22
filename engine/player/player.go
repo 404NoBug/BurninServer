@@ -5,7 +5,11 @@ import (
 	"BurninProject/engine/post"
 	"BurninProject/network"
 	"BurninProject/network/protocol/gen/messageId"
+	"fmt"
+	"github.com/asynkron/protoactor-go/actor"
 )
+
+type Actor = actor.Actor
 
 type Player struct {
 	PlayerInfo     *Player_Info
@@ -13,6 +17,7 @@ type Player struct {
 	handlers       map[messageId.MessageId]Handler
 	Session        *network.Session
 	Broadcast      chan *network.Message
+	Pid            *actor.PID
 }
 type Player_Info struct {
 	UId        common.EntityID
@@ -23,6 +28,8 @@ type Player_Info struct {
 	Dis        float32
 	UIDDes     string
 }
+
+type Hello struct{ Who string }
 
 func NewPlayer(entityID common.EntityID) *Player {
 	if entityID == "" {
@@ -40,6 +47,25 @@ func NewPlayer(entityID common.EntityID) *Player {
 	}
 	p.HandlerRegister()
 	return p
+}
+
+func (player *Player) NewPlayerActor() Actor {
+	return player
+}
+
+//接收消息
+func (player *Player) Receive(context actor.Context) {
+	switch msg := context.Message().(type) {
+	case Hello:
+		fmt.Printf("Hello %v\n", msg.Who)
+	}
+}
+
+//生成Player的ActorPID
+func (player *Player) CreatPlayerPID() *actor.PID {
+	system := actor.NewActorSystem()
+	props := actor.PropsFromProducer(player.NewPlayerActor)
+	return system.Root.Spawn(props)
 }
 
 func (p *Player) Run() {
