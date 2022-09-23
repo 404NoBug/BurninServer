@@ -17,10 +17,10 @@ import (
 
 	"path"
 
+	"BurninProject/engine/common"
+	"BurninProject/engine/gwlog"
 	"github.com/go-ini/ini"
 	"github.com/pkg/errors"
-	"github.com/xiaonanln/goworld/engine/common"
-	"github.com/xiaonanln/goworld/engine/gwlog"
 )
 
 const (

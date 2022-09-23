@@ -42,13 +42,13 @@ func (s *Session) Run() {
 
 func (s *Session) Ticker() {
 	myTimer := time.NewTimer(time.Second) // 启动定时器
-	defer func(Conn net.Conn) {
-		err := Conn.Close()
-		logger.Logger.InfoF("Conn.Close = ", err)
-		if err != nil {
-			logger.Logger.InfoF("CheckPing Conn.Close err = ", err)
-		}
-	}(s.Conn)
+	//defer func(Conn net.Conn) {
+	//	err := Conn.Close()
+	//	logger.Logger.InfoF("Conn.Close = ", err)
+	//	if err != nil {
+	//		logger.Logger.InfoF("CheckPing Conn.Close err = ", err)
+	//	}
+	//}(s.Conn)
 ForEnd:
 	for {
 		select {

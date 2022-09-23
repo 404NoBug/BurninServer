@@ -13,11 +13,15 @@ require (
 	github.com/phuhao00/spoor v1.0.2
 	github.com/phuhao00/sugar v1.0.1
 	github.com/pkg/errors v0.9.1
-	github.com/xiaonanln/goworld v0.1.6
 	gitlab.com/rwxrob/uniq v0.0.0-20200325203910-f771e6779384
 	go.mongodb.org/mongo-driver v1.10.1
 	google.golang.org/protobuf v1.28.1
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
+)
+
+require (
+	github.com/xiaonanln/goworld v0.1.6
+	go.uber.org/zap v1.23.0
 )
 
 require (
@@ -55,10 +59,8 @@ require (
 	go.opentelemetry.io/otel/trace v1.7.0 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
-	go.uber.org/zap v1.23.0 // indirect
 	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d // indirect
 	golang.org/x/exp v0.0.0-20220713135740-79cabaa25d75 // indirect
-	golang.org/x/net v0.0.0-20220526153639-5463443f8c37 // indirect
 	golang.org/x/sync v0.0.0-20220513210516-0976fa681c29 // indirect
 	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
 	golang.org/x/text v0.3.7 // indirect
