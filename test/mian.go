@@ -1,7 +1,6 @@
 package main
 
 import (
-	"BurninProject/engine/kvdb"
 	"fmt"
 	console "github.com/AsynkronIT/goconsole"
 	"github.com/asynkron/protoactor-go/actor"
@@ -42,19 +41,9 @@ func (state *WorldActor) Receive(context actor.Context) {
 }
 
 func main() {
-	kvdb.GetOrPut("password$"+"gy001", "123456", func(oldVal string, err error) {
-		if err != nil {
-			fmt.Println("11")
-			return
-		}
-		if oldVal == "" {
-			fmt.Println("22")
-			//player := goworld.CreateEntityLocally("Player") // 创建一个Player对象然后立刻销毁，产生一次存盘
-			//player.Attrs.SetStr("name", username)
-			//player.Destroy()
-		} else {
-			fmt.Println("33")
-		}
-	})
-	console.ReadLine()
+	system := actor.NewActorSystem()
+	props := actor.PropsFromProducer(NewHelloActor)
+	pid := system.Root.Spawn(props)
+	system.Root.Send(pid, &Hello{Who: "Roger"})
+	_, _ = console.ReadLine()
 }

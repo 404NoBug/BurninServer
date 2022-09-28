@@ -4,16 +4,17 @@ import (
 	"BurninProject/aop/logger"
 	"BurninProject/engine/config"
 	"BurninProject/engine/manager"
+	"BurninProject/engine/post"
 	"BurninProject/network"
 	"BurninProject/network/protocol/gen/messageId"
 	"os"
 	"syscall"
+	"time"
 )
 
 type MgrMgr struct {
-	Pm     *manager.PlayerMgr
-	Server *network.Server
-	//MongoDb         *MongoDB.MongoConn
+	Pm              *manager.PlayerMgr
+	Server          *network.Server
 	Handlers        map[messageId.MessageId]func(message *network.SessionPacket)
 	chSessionPacket chan *network.SessionPacket
 }
@@ -24,7 +25,6 @@ func NewMgrMgr() *MgrMgr {
 	m.Server = network.NewServer(cfg.ListenAddr)
 	m.Server.OnSessionPacket = m.OnSessionPacket
 	m.Handlers = make(map[messageId.MessageId]func(message *network.SessionPacket))
-	//m.MongoDb = MongoDB.InitMongoConn("127.0.0.1:27017", "locahost", "123456", "Burnin")
 	return m
 }
 
@@ -34,6 +34,14 @@ func (mm *MgrMgr) Run() {
 	mm.HandlerRegister()
 	go mm.Server.Run()
 	go mm.Pm.Run()
+	go loop()
+}
+
+func loop() {
+	for {
+		post.Tick()
+		time.Sleep(time.Millisecond)
+	}
 }
 
 func (mm *MgrMgr) OnSessionPacket(packet *network.SessionPacket) {

@@ -18,7 +18,6 @@ type AsyncCallback func(res interface{}, err error)
 
 func (ac AsyncCallback) callback(res interface{}, err error) {
 	if ac != nil {
-		gwlog.Errorf("async callback", &ac)
 		post.Post(func() {
 			ac(res, err)
 		})

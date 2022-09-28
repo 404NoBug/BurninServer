@@ -165,6 +165,8 @@ func (m *S2C_Register_Accoount) validate(all bool) error {
 
 	// no validation rules for RetCode
 
+	// no validation rules for PlayerId
+
 	if len(errors) > 0 {
 		return S2C_Register_AccoountMultiError(errors)
 	}

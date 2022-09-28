@@ -10,6 +10,7 @@ message C2S_Register_Accoount{
 
 message S2C_Register_Accoount{
 	int32  ret_code=1; //0：成功 1：账号存在 2：账号、密码格式错误 3：服务器内部错误
+	optional string  PlayerId =2;
 }
 
 message C2S_CreatePlayer{

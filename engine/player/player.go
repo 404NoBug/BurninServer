@@ -10,6 +10,7 @@ import (
 )
 
 type Actor = actor.Actor
+type Pid = *actor.PID
 
 type Player struct {
 	PlayerInfo     *Player_Info
@@ -17,7 +18,7 @@ type Player struct {
 	handlers       map[messageId.MessageId]Handler
 	Session        *network.Session
 	Broadcast      chan *network.Message
-	Pid            *actor.PID
+	Pid            Pid
 }
 type Player_Info struct {
 	UId        common.EntityID
@@ -66,6 +67,12 @@ func (player *Player) CreatPlayerPID() *actor.PID {
 	system := actor.NewActorSystem()
 	props := actor.PropsFromProducer(player.NewPlayerActor)
 	return system.Root.Spawn(props)
+}
+
+//给对应玩家发消息
+func PlayerSendMsg(pid Pid, message interface{}) {
+	system := actor.NewActorSystem()
+	system.Root.Send(pid, message)
 }
 
 func (p *Player) Run() {

@@ -138,8 +138,10 @@ func GetOrPut(key string, val string, callback KVDBGetOrPutCallback) {
 	if callback != nil {
 		ac = func(res interface{}, err error) {
 			if err == nil {
+				gwlog.Errorf("GetOrPut async callback", callback)
 				callback(res.(string), err)
 			} else {
+				gwlog.Errorf("GetOrPut async callback", callback)
 				callback("", err)
 			}
 		}

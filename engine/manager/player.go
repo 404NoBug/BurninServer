@@ -32,7 +32,6 @@ func (pm *PlayerMgr) Add(p *player.Player) {
 	if pm.players[p.PlayerInfo.UId] != nil {
 		return
 	}
-	fmt.Println("Add Player")
 	pm.players[p.PlayerInfo.UId] = p
 	go p.Run()
 }
