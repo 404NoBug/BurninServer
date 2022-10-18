@@ -77,7 +77,7 @@ func (p *Player) ResolveChatMsg(packet *network.Message) {
 		ID:   uint64(messageId.MessageId_GS2C_SendChatMsg),
 		Data: bytes,
 	}
-	//p.Broadcast <- rsp
+	p.Broadcast <- rsp
 	p.Session.SendMsg(rsp)
 }
 
